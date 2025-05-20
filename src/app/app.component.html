@@ -1,0 +1,44 @@
+<div class="card" id="teste">
+  <p-table #dt [columns]="cols" [value]="acoes" showGridlines [(selection)]="selectedAcoes" [exportHeader]="'customExportHeader'" >
+    <!--<ng-template #caption>
+      <div style="display: flex; flex-direction: row; justify-content: space-between;
+        align-items: center; height: 30px;">
+        <h2 style="color: #34d399"> Ações Garantem o Futuro </h2>
+        <p-button icon="pi pi-external-link" label="Exportar CSV" (click)="dt.exportCSV()" />
+      </div>
+    </ng-template>-->
+    <ng-template #header let-columns>
+      <tr style="position: fixed; top: 0;">
+        <th [style.width]="getWidth()" *ngFor="let col of columns" [pSortableColumn]="col.field">
+          {{ col.header }} <p-sortIcon field="{{col.field}}" />
+          <p-columnFilter type="numeric" field="{{col.field}}" display="menu" showOperator="false" [minFractionDigits]="2" [maxFractionDigits]="2"/>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-rowData let-columns="columns">
+      <tr >
+        <td [style.width]="getWidth()" *ngFor="let col of columns">
+          <div *ngIf="col.field == 'codigo'">
+            <!--<a target="_blank" href="https://investidor10.com.br/acoes/{{ rowData[col.field] }}/">{{ rowData[col.field] }} </a>-->
+            <a target="_blank" href="https://investidor10.com.br/stocks/{{ rowData[col.field] }}/">{{ rowData[col.field] }} </a>
+          </div>
+          <div *ngIf="col.field == 'upsideGraham'">
+            <span *ngIf="rowData[col.field] > '0'" style="color: green"> {{ rowData[col.field] }} </span>
+            <span *ngIf="rowData[col.field] <= '0'" style="color: red"> {{ rowData[col.field] }} </span>
+          </div>
+          <div *ngIf="col.field == 'plDiff'">
+            <span *ngIf="rowData[col.field] > '0'" style="color: red"> {{ rowData[col.field] }} </span>
+            <span *ngIf="rowData[col.field] <= '0'" style="color: green"> {{ rowData[col.field] }} </span>
+          </div>
+          <div *ngIf="col.field == 'pvpDiff'">
+            <span *ngIf="rowData[col.field] > '0'" style="color: red"> {{ rowData[col.field] }} </span>
+            <span *ngIf="rowData[col.field] <= '0'" style="color: green"> {{ rowData[col.field] }} </span>
+          </div>
+          <div *ngIf="col.field != 'codigo' && col.field != 'upsideGraham' && col.field != 'plDiff' && col.field != 'pvpDiff'">
+            {{ rowData[col.field] }}
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
